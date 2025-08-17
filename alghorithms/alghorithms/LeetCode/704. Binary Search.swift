@@ -39,3 +39,18 @@ class Solution {
         return -1
     }
 }
+
+// 테스트
+import Testing
+
+struct PlaygroundTest {
+    let solution = Solution()
+
+    @Test func test1() async throws {
+        #expect(solution.search([-1, 0, 3, 5, 9, 12], 9) == 4)
+    }
+    
+    @Test func test2() async throws {
+        #expect(solution.search([-1, 0, 3, 5, 9, 12], 2) == -1)
+    }
+}
