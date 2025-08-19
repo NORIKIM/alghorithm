@@ -1,0 +1,74 @@
+// 시간 초과
+class Solution {
+    func fairCandySwap(_ aliceSizes: [Int], _ bobSizes: [Int]) -> [Int] {        
+        for i in 0 ..< aliceSizes.count {
+            for j in 0 ..< bobSizes.count {
+                var aliceSizes = aliceSizes
+                var bobSizes = bobSizes
+                let alice = aliceSizes[i]
+                let bob = bobSizes[j]
+                
+                aliceSizes[i] = bob
+                bobSizes[j] = alice
+                
+                if aliceSizes.reduce(0, +) == bobSizes.reduce(0, +) {
+                    return [alice, bob]
+                }
+            }
+        }
+        return [aliceSizes[0], bobSizes[0]]
+    }
+}
+
+// 다른 사람 풀이
+class Solution {
+    func fairCandySwap(_ aliceSizes: [Int], _ bobSizes: [Int]) -> [Int] {
+        var set_b : Set<Int> = []
+        var sum_a = 0
+        var sum_b = 0
+        var diff = 0
+        
+        for a in aliceSizes {
+            sum_a += a
+        }
+
+        for b in bobSizes {
+            set_b.insert(b)
+            sum_b += b
+        }
+        
+        diff = (sum_a - sum_b) / 2
+
+        for a in aliceSizes {
+            if set_b.contains(a - diff) {
+                return [a, a - diff]
+            }
+        }
+
+        return [0]
+        
+    }
+}
+
+// 테스트
+import Testing
+
+struct PlaygroundTest {
+    let solution = Solution()
+
+    @Test func test1() async throws {
+        #expect(solution.fairCandySwap([1,1], [2,2]) == [1,2])
+    }
+    
+    @Test func test2() async throws {
+        #expect(solution.fairCandySwap([1,2], [2,3]) == [1,2])
+    }
+    
+    @Test func test3() async throws {
+        #expect(solution.fairCandySwap([2], [1,3]) == [2,3])
+    }
+    
+    @Test func test4() async throws {
+        #expect(solution.fairCandySwap([1,1,2], [1,2,3]) == [1,2])
+    }
+}
